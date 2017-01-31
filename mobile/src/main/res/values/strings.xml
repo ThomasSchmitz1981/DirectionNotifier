@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Direction Notifier beta</string>
+    <!-- Notification Service-->
+    <string name="desc_dir_service">Activate to get direction notifications
+                                    while google maps navigation is running
+                                    on your ticwatch.
+
+    </string>
+    <string name="dir_service_settings"> This is a beta Version of the Direction Notifier Service.
+    JUST FOR TESTING INTERESTED PEOPLE \n\n
+    Go to Settings -> Accessibility and activate the Direction Notifier Service
+    to get direction notifications on your ticwatch while google maps navigation is running.\n\n
+    PLEASE NOTE: \n\n
+    The google maps notification is not fully synchronized on time with notifications for your ticwatch.
+    The reason for that is to reduce traffic between phone and ticwatch.
+    The functionaltiy of the service can be affected by a newer version of google maps.\n\n\n\n
+        Developer: deLUXe
+    </string>
+</resources>

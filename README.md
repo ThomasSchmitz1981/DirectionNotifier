@@ -1,2 +1,1 @@
-# DirectionNotifier
-Direction Notifier Service to get direction notifications on your smartwatch/ticwatch while google maps navigation is running.
+Ticwear API使用样例代码

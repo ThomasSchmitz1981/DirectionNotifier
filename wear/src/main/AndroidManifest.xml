@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mobvoi.ticwear.notifier">
+
+    <uses-sdk
+        android:minSdkVersion="20"
+        android:targetSdkVersion="22" />
+
+    <uses-feature android:name="android.hardware.type.watch" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.ApiDemoApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault">
+        <service android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.DataLayerListenerService">
+            <intent-filter>
+                <action android:name="com.mobvoi.android.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.FirstActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.SensorActivity"
+            android:label="@string/title_activity_sensor" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.GeoActivity"
+            android:label="@string/title_activity_geo" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.StepActivity"
+            android:label="@string/title_activity_step" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WeatherActivity"
+            android:label="@string/title_activity_weather" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.GestureActivity"
+            android:label="@string/title_activity_gesture" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.VoiceInputActivity"
+            android:label="@string/title_activity_voice_input" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.Text2VoiceActivity"
+            android:label="@string/title_activity_text2_voice" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.SemanticActivity"
+            android:label="@string/title_activity_semantic">
+            <intent-filter>
+                <action android:name="com.mobvoi.semantic.action.FLIGHT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.SearchActivity"
+            android:label="@string/title_activity_search" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.CardActivity"
+            android:label="@string/title_activity_search" />
+
+        <service android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WidgetService" />
+
+        <receiver android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- This specifies the widget provider info -->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetinfo" />
+        </receiver>
+
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.NaonaoActivity"
+            android:label="@string/title_activity_naonao" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.UiListActivity"
+            android:label="@string/title_activity_ui_list" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.BoxInsetActivity"
+            android:label="@string/title_activity_box_inset" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.CardFrameActivity"
+            android:label="@string/title_activity_card_frame" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.CircledImageActivity"
+            android:label="@string/title_activity_circled_image" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.ConfirmActivity"
+            android:label="@string/title_activity_confirmation" />
+        <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.DissmissOverlayActivity"
+            android:label="@string/title_activity_dissmiss_overlay"
+            android:theme="@style/DismissTheme" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.PickerActivity"
+            android:label="@string/title_activity_picker" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WatchStubActivity"
+            android:label="@string/title_activity_watch_stub" />
+        <activity
+            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WarnActivity"
+            android:label="@string/title_activity_warn"></activity>
+    </application>
+
+</manifest>

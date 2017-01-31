@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeNotificationStateChanged"
+    android:accessibilityFeedbackType="feedbackSpoken|feedbackAudible"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/desc_dir_service"
+    android:notificationTimeout="0"
+    android:packageNames="com.google.android.apps.maps" />

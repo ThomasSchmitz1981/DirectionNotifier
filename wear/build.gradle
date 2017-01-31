@@ -1,0 +1,20 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.mobvoi.ticwear.mobvoiapidemo"
+        minSdkVersion 20
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    compile "com.ticwear:mobvoi-api:${rootProject.ext.mobvoiApiVersion}"
+    compile 'com.google.android.support:wearable:1.1.0'
+    compile 'com.alibaba:fastjson:1.2.7'
+}
