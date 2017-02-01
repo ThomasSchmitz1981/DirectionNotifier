@@ -14,13 +14,13 @@ buildscript {
 }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
         applicationId "de.luxe.direction.notifier"
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -33,11 +33,9 @@ android {
 }
 
 dependencies {
-
     compile "com.ticwear:mobvoi-api:${rootProject.ext.mobvoiApiVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
 
     testCompile 'junit:junit:4.12'
-
 }
