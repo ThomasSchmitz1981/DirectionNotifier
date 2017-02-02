@@ -3,8 +3,7 @@ package de.luxe.direction.notifier;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
+import android.app.PendingIntent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +13,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Parcelable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -31,6 +31,9 @@ public class DirectionNotifierService extends AccessibilityService {
     private AccessibilityServiceInfo info = new AccessibilityServiceInfo();
     private Bitmap bitmap;
     private int noti_id = 1;
+    private PendingIntent pendingIntent;
+    private String textIntent;
+
 
 
     /**
@@ -42,11 +45,12 @@ public class DirectionNotifierService extends AccessibilityService {
      */
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
         if (noti_id != 1) {
-            manager.cancel(noti_id - 1);
+            managerCompat.cancel(noti_id - 1);
+            bitmap.recycle();
         }
-        Notification direction;
+        Notification direction = null;
         String textConcated = "";
         if (event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
             Log.v(TAG, "Recieved event");
@@ -58,8 +62,11 @@ public class DirectionNotifierService extends AccessibilityService {
             if (parcelableData instanceof Notification) {
                 direction = (Notification) parcelableData;
                 RemoteViews views = direction.bigContentView;
+
                 textConcated = parseContent(views);
             }
+
+
             String dirTitle = "New Direction";
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                     .setAutoCancel(true)
@@ -69,11 +76,23 @@ public class DirectionNotifierService extends AccessibilityService {
                     .setSmallIcon(R.mipmap.direction2)
                     .setLargeIcon(bitmap)
                     .setContentTitle(dirTitle)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setContentText(textConcated);
+            //adding exit intent
+            builder.addAction(android.R.drawable.ic_delete, textIntent, pendingIntent);
+            //Intent showDirection = new Intent();
+            //showDirection.setType("image/*");
+            //showDirection.setAction(Intent.ACTION_GET_CONTENT);
+            //showDirection.addCategory(Intent.CATEGORY_OPENABLE);
+            //showDirection.putExtra("photo", bitmap);
+
+            //builder.addAction(R.mipmap.direction2,"Show direction", PendingIntent.getService(this,0,showDirection,0));
+
 
             Notification notification = builder.build();
-            notification.visibility = Notification.VISIBILITY_PUBLIC;
-            manager.notify(noti_id, notification);
+
+
+            managerCompat.notify(noti_id, notification);
             noti_id++;
 
         }
@@ -132,7 +151,10 @@ public class DirectionNotifierService extends AccessibilityService {
                             viewId = field.getInt(action);
                         } else if (field.getName().equals("bitmap")) {
                             bitmap = (Bitmap) field.get(action);
+                        } else if (field.getName().equals("pendingIntent")) {
+                            pendingIntent = (PendingIntent) field.get(action);
                         }
+
                         Log.v(TAG, "field.getName(): " + field.getName());
                     }
                     if (type != null) {
@@ -142,6 +164,8 @@ public class DirectionNotifierService extends AccessibilityService {
                                 text.add(value.toString());
                                 if (text.size() > 1) {
                                     textConcated = textConcated + value.toString() + " ";
+                                } else {
+                                    textIntent = value.toString();
                                 }
                             }
                         }
