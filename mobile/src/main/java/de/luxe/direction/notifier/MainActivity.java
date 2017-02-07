@@ -1,8 +1,8 @@
 /**
- * mobvoi_api_demo
+ * direction notifier
  *
- * @author jiancui
- * @date 2015-12-8
+ * @author deLUXe
+ * @date 2017-02-07
  */
 package de.luxe.direction.notifier;
 

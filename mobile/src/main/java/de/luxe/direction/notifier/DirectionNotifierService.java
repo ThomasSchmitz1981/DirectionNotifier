@@ -1,3 +1,9 @@
+/**
+ * direction notifier
+ *
+ * @author deLUXe
+ * @date 2017-02-07
+ */
 package de.luxe.direction.notifier;
 
 import android.accessibilityservice.AccessibilityService;
@@ -11,6 +17,7 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.os.Environment;
 import android.os.Parcelable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -20,6 +27,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.RemoteViews;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +57,9 @@ public class DirectionNotifierService extends AccessibilityService {
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
         if (noti_id != 1) {
             managerCompat.cancel(noti_id - 1);
-            bitmap.recycle();
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
         }
         Notification direction = null;
         String textConcated = "";
@@ -64,10 +75,11 @@ public class DirectionNotifierService extends AccessibilityService {
                 RemoteViews views = direction.bigContentView;
 
                 textConcated = parseContent(views);
+
             }
 
-
             String dirTitle = "New Direction";
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                     .setAutoCancel(true)
                     .setColor(Color.GREEN)
@@ -77,26 +89,53 @@ public class DirectionNotifierService extends AccessibilityService {
                     .setLargeIcon(bitmap)
                     .setContentTitle(dirTitle)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setContentText(textConcated);
+                    .setContentText(textConcated)
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(bitmap)
+                            .setSummaryText(textConcated)
+                            .bigLargeIcon(bitmap)
+                            .setBigContentTitle("New direction"));
+
             //adding exit intent
             builder.addAction(android.R.drawable.ic_delete, textIntent, pendingIntent);
-            //Intent showDirection = new Intent();
-            //showDirection.setType("image/*");
-            //showDirection.setAction(Intent.ACTION_GET_CONTENT);
-            //showDirection.addCategory(Intent.CATEGORY_OPENABLE);
-            //showDirection.putExtra("photo", bitmap);
-
-            //builder.addAction(R.mipmap.direction2,"Show direction", PendingIntent.getService(this,0,showDirection,0));
-
-
             Notification notification = builder.build();
-
-
             managerCompat.notify(noti_id, notification);
             noti_id++;
 
         }
 
+    }
+
+
+    public File getImageFile(Bitmap inImage) {
+        if (inImage == null) {
+            return null;
+        }
+        String filename = "direction.png";
+        File sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File dest = new File(sd, filename);
+
+        try {
+            FileOutputStream out = new FileOutputStream(dest);
+            inImage.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+        if (dest != null) {
+            Log.v(TAG, dest.getAbsolutePath());
+        }
+        return dest;
+    }
+
+    private byte[] bitmapToByteArray(Bitmap map) {
+        //Convert to byte array
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        map.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        return byteArray;
     }
 
     public String bitMapToString(Bitmap bitmap) {
@@ -120,62 +159,65 @@ public class DirectionNotifierService extends AccessibilityService {
     }
 
     private String parseContent(Object views) {
-        Class secretClass = views.getClass();
-        List<String> text = new ArrayList<String>();
         String textConcated = "";
-        try {
+        if (views != null) {
+            Class secretClass = views.getClass();
+            List<String> text = new ArrayList<String>();
 
-            Field outerFields[] = secretClass.getDeclaredFields();
-            Log.v(TAG, "bigContentView: " + secretClass);
-            for (int i = 0; i < outerFields.length; i++) {
-                if (!outerFields[i].getName().equals("mActions")) continue;
+            try {
 
-                outerFields[i].setAccessible(true);
+                Field outerFields[] = secretClass.getDeclaredFields();
+                Log.v(TAG, "bigContentView: " + secretClass);
+                for (int i = 0; i < outerFields.length; i++) {
+                    if (!outerFields[i].getName().equals("mActions")) continue;
 
-                ArrayList<Object> actions = (ArrayList<Object>) outerFields[i]
-                        .get(views);
+                    outerFields[i].setAccessible(true);
 
-                for (Object action : actions) {
-                    Field innerFields[] = action.getClass().getDeclaredFields();
-                    Log.v(TAG, "action.getClass: " + action.getClass());
-                    Object value = null;
-                    Integer type = null;
-                    Integer viewId = null;
-                    for (Field field : innerFields) {
-                        field.setAccessible(true);
-                        if (field.getName().equals("value")) {
-                            value = field.get(action);
-                        } else if (field.getName().equals("type")) {
-                            type = field.getInt(action);
-                        } else if (field.getName().equals("viewId")) {
-                            viewId = field.getInt(action);
-                        } else if (field.getName().equals("bitmap")) {
-                            bitmap = (Bitmap) field.get(action);
-                        } else if (field.getName().equals("pendingIntent")) {
-                            pendingIntent = (PendingIntent) field.get(action);
+                    ArrayList<Object> actions = (ArrayList<Object>) outerFields[i]
+                            .get(views);
+
+                    for (Object action : actions) {
+                        Field innerFields[] = action.getClass().getDeclaredFields();
+                        Log.v(TAG, "action.getClass: " + action.getClass());
+                        Object value = null;
+                        Integer type = null;
+                        Integer viewId = null;
+                        for (Field field : innerFields) {
+                            field.setAccessible(true);
+                            if (field.getName().equals("value")) {
+                                value = field.get(action);
+                            } else if (field.getName().equals("type")) {
+                                type = field.getInt(action);
+                            } else if (field.getName().equals("viewId")) {
+                                viewId = field.getInt(action);
+                            } else if (field.getName().equals("bitmap")) {
+                                bitmap = (Bitmap) field.get(action);
+                            } else if (field.getName().equals("pendingIntent")) {
+                                pendingIntent = (PendingIntent) field.get(action);
+                            }
+
+                            Log.v(TAG, "field.getName(): " + field.getName());
                         }
-
-                        Log.v(TAG, "field.getName(): " + field.getName());
-                    }
-                    if (type != null) {
-                        if (type == 9 || type == 10) {
-                            if (value != null) {
-                                Log.v(TAG, "ValueId: " + viewId + " = " + value.toString());
-                                text.add(value.toString());
-                                if (text.size() > 1) {
-                                    textConcated = textConcated + value.toString() + " ";
-                                } else {
-                                    textIntent = value.toString();
+                        if (type != null) {
+                            if (type == 9 || type == 10) {
+                                if (value != null) {
+                                    Log.v(TAG, "ValueId: " + viewId + " = " + value.toString());
+                                    text.add(value.toString());
+                                    if (text.size() > 1) {
+                                        textConcated = textConcated + value.toString() + " ";
+                                    } else {
+                                        textIntent = value.toString();
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return textConcated;
     }

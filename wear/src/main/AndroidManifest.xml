@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <application
+    <!--<application
         android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.ApiDemoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -83,44 +83,44 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <!-- This specifies the widget provider info -->
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widgetinfo" />
-        </receiver>
+             This specifies the widget provider info -->
+    <!--<meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/widgetinfo" />
+</receiver>
 
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.NaonaoActivity"
-            android:label="@string/title_activity_naonao" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.UiListActivity"
-            android:label="@string/title_activity_ui_list" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.BoxInsetActivity"
-            android:label="@string/title_activity_box_inset" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.CardFrameActivity"
-            android:label="@string/title_activity_card_frame" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.CircledImageActivity"
-            android:label="@string/title_activity_circled_image" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.ConfirmActivity"
-            android:label="@string/title_activity_confirmation" />
-        <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.DissmissOverlayActivity"
-            android:label="@string/title_activity_dissmiss_overlay"
-            android:theme="@style/DismissTheme" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.PickerActivity"
-            android:label="@string/title_activity_picker" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WatchStubActivity"
-            android:label="@string/title_activity_watch_stub" />
-        <activity
-            android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WarnActivity"
-            android:label="@string/title_activity_warn"></activity>
-    </application>
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.NaonaoActivity"
+    android:label="@string/title_activity_naonao" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.UiListActivity"
+    android:label="@string/title_activity_ui_list" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.BoxInsetActivity"
+    android:label="@string/title_activity_box_inset" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.CardFrameActivity"
+    android:label="@string/title_activity_card_frame" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.CircledImageActivity"
+    android:label="@string/title_activity_circled_image" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.ConfirmActivity"
+    android:label="@string/title_activity_confirmation" />
+<activity android:name="android.support.wearable.activity.ConfirmationActivity" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.DissmissOverlayActivity"
+    android:label="@string/title_activity_dissmiss_overlay"
+    android:theme="@style/DismissTheme" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.PickerActivity"
+    android:label="@string/title_activity_picker" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WatchStubActivity"
+    android:label="@string/title_activity_watch_stub" />
+<activity
+    android:name="com.mobvoi.ticwear.de.luxe.direction.notifier.WarnActivity"
+    android:label="@string/title_activity_warn"></activity>
+</application>-->
 
 </manifest>

@@ -11,6 +11,7 @@
     Go to Settings -> Accessibility and activate the Direction Notifier Service
     to get direction notifications on your ticwatch while google maps navigation is running.\n\n
     NEW FEATURES: \n\n
+    - View Direction Bitmap via "view photo" through notification on your ticwatch\n
     - Invoke "Exit navigation" through notification on your ticwatch
     \n\n
     PLEASE NOTE: \n\n
@@ -19,4 +20,5 @@
     The functionaltiy of the service can be affected by a newer version of google maps.\n\n\n\n
         Developer: deLUXe
     </string>
+    <string name="title_activity_direction_bitmap">DirectionBitmapActivity</string>
 </resources>
