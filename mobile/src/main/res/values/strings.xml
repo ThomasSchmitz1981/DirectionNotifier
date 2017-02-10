@@ -18,7 +18,8 @@
     The google maps notification is not fully synchronized on time with notifications for your ticwatch.
     The reason for that is to reduce traffic between phone and ticwatch.
     The functionaltiy of the service can be affected by a newer version of google maps.\n\n\n\n
-        Developer: deLUXe
+        Developer: deLUXe \n
     </string>
-    <string name="title_activity_direction_bitmap">DirectionBitmapActivity</string>
+    <string name="txtDonate"><a href="https://www.paypal.me/deLUXe81">Make a donation via PayPal</a></string>
+
 </resources>

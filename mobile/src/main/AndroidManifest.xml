@@ -23,20 +23,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".DirectionBitmapActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:taskAffinity=""
-            android:theme="@android:style/Theme.DeviceDefault.Light">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-        </activity>
-
-
         <service
             android:name=".DirectionNotifierService"
             class=".DirectionNotifierService"
