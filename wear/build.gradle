@@ -17,4 +17,6 @@ dependencies {
     compile "com.ticwear:mobvoi-api:${rootProject.ext.mobvoiApiVersion}"
     compile 'com.google.android.support:wearable:1.1.0'
     compile 'com.alibaba:fastjson:1.2.7'
+
+    testCompile 'junit:junit:4.12'
 }

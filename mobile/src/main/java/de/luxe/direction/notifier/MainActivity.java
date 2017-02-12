@@ -1,5 +1,4 @@
 /**
- * direction notifier
  *
  * @author deLUXe
  * @date 2017-02-07
@@ -11,6 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
+/**
+ * direction notifier, main activity to show some info
+ *
+ * @author deLUXe
+ */
 public class MainActivity extends AppCompatActivity {
 
 
