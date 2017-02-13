@@ -52,17 +52,17 @@ public class DirectionNotifierService extends AccessibilityService {
      */
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
-        Integer notiId = new Random().nextInt();
-        if (!notis.isEmpty()) {
-            managerCompat.cancel(notis.get("0"));
-            notis.remove("0");
-        }
-        if (bitmap != null) {
-            bitmap.recycle();
-        }
         if (event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
             Log.v(TAG, "Received event");
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+            Integer notiId = new Random().nextInt();
+            if (!notis.isEmpty()) {
+                managerCompat.cancel(notis.get("0"));
+                notis.remove("0");
+            }
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
             Parcelable parcelableData = event.getParcelableData();
             if (parcelableData == null) {
                 return;
@@ -79,6 +79,8 @@ public class DirectionNotifierService extends AccessibilityService {
                 // this is not an elegant way to get the infos from the notification, but find no other way
                 StringBuilder textConcated = parseContent(views);
                 String dirTitle = "New Direction";
+                DirectionNotification model = new DirectionNotification(dirTitle, textConcated.toString(),
+                        bitmap, pendingIntent, textIntent);
                 // Set up the notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                         .setAutoCancel(true)
