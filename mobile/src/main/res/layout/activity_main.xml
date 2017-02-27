@@ -34,6 +34,17 @@
                     android:layout_height="wrap_content"
                     android:text="@string/txtDonate" />
             </TableRow>
+            <TableRow>
+
+                <Button
+                    android:id="@+id/btnMyLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:pointerIcon="crosshair"
+                    android:text="@string/btn_my_location"/>
+            </TableRow>
         </TableLayout>
+
+
     </ScrollView>
 </RelativeLayout>

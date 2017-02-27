@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
  * Created by deLuxe on 14.02.2017.
  */
 
-public class DirectionNotification {
+public class DirectionNotification{
 
     private String title;
     private String text;

@@ -6,17 +6,28 @@
  */
 package de.luxe.direction.notifier;
 
+import android.Manifest;
 import android.accessibilityservice.AccessibilityService;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Parcelable;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.RemoteViews;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -79,33 +90,24 @@ public class DirectionNotifierService extends AccessibilityService {
                 // this is not an elegant way to get the infos from the notification, but find no other way
                 StringBuilder textConcated = parseContent(views);
                 String dirTitle = "New Direction";
-                DirectionNotification model = new DirectionNotification(dirTitle, textConcated.toString(),
-                        bitmap, pendingIntent, textIntent);
-                // Set up the notification
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                        .setAutoCancel(true)
-                        .setColor(Color.GREEN)
-                        .setShowWhen(true)
-                        .setContentInfo(textConcated.toString())
-                        .setSmallIcon(R.mipmap.direction2)
-                        .setLargeIcon(bitmap)
-                        .setContentTitle(dirTitle)
-                        .setVisibility(Notification.VISIBILITY_PUBLIC)
-                        .setContentText(textConcated.toString())
-                        .setStyle(new NotificationCompat.BigPictureStyle()
-                                .bigPicture(bitmap)
-                                .setSummaryText(textConcated.toString())
-                                .bigLargeIcon(bitmap)
-                                .setBigContentTitle(dirTitle));
 
-                // adding exit intent
-                builder.addAction(android.R.drawable.ic_delete, textIntent, pendingIntent);
-                // creating notification
-                Notification notification = builder.build();
-                // managing notification
+
+                LatLng myLocation = getMyLocation();
+                if(myLocation == null){
+                    return;
+                }
                 notis.put("0", notiId);
-                // notify
-                managerCompat.notify(notiId, notification);
+                Intent start = new Intent(this, MyLocationActivity.class);
+                start.putExtra("loc", myLocation);
+                start.putExtra("direction", bitmap);
+                start.putExtra("text", textConcated.toString());
+                start.putExtra("pendingIntent", pendingIntent);
+                start.putExtra("textIntent", textIntent);
+                start.putExtra("title", dirTitle);
+                start.putExtra("notiId", notiId);
+                start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startActivity(start);
             }
         }
 
@@ -195,7 +197,43 @@ public class DirectionNotifierService extends AccessibilityService {
         return textConcated;
     }
 
+    public LatLng getMyLocation() {
+        Geocoder geocoder;
+        String bestProvider;
+        List<Address> user = null;
 
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        bestProvider = lm.getBestProvider(criteria, false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Toast.makeText(this, "Please give permission for your location", Toast.LENGTH_LONG).show();
+            return null;
+        }
+        Location location = lm.getLastKnownLocation(bestProvider);
+
+        if (location == null) {
+            Toast.makeText(this, "Location Not found", Toast.LENGTH_LONG).show();
+        } else {
+            geocoder = new Geocoder(this);
+            try {
+                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+                return new LatLng((double) user.get(0).getLatitude(), (double) user.get(0).getLongitude());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
 
 }
