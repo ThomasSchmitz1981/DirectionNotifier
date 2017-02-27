@@ -6,13 +6,17 @@
                                     on your ticwatch.
 
     </string>
-    <string name="dir_service_settings">Go to Settings -> Accessibility and activate the Direction Notifier Service
-    to get direction notifications on your ticwatch while google maps navigation is running.\n\n
-    \n\n
-    PLEASE NOTE: \n\n
-    The google maps notification is not fully synchronized on time with notifications for your ticwatch.
-    The reason for that is to reduce traffic between phone and ticwatch.
-    The functionaltiy of the service can be affected by a newer version of google maps.\n\n\n\n
+    <string name="dir_service_settings">Go to Settings -> Accessibility and activate the Direction
+        Notifier Service to get direction notifications on your ticwatch while google maps
+        navigation is running in the background. \n\n
+        The motivation of the app is to support people who are using maps navigation to reach their
+        destination by feet. Imagine you are in an unknown city and you want to use maps navigation
+        to reach your destination. You start your navigation on the phone, lock your screen, put the
+        phone in your pocket, maps navigation is running in the background and you start walking.
+        The direction notifier will notify you when significant direction changes appears. So the
+        intention of the app is not to notify you when maps navigation is running in the foreground
+        like in a car, better have both hands constantly on your steering wheel rather than look to
+        your watch ;)\n\n\n\n
         Developer: deLUXe \n
     </string>
     <string name="txtDonate"><a href="https://www.paypal.me/deLUXe81">Make a donation via PayPal</a></string>
