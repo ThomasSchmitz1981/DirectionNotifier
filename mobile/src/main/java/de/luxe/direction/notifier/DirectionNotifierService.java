@@ -49,6 +49,8 @@ import java.util.StringTokenizer;
 
 import cz.msebera.android.httpclient.Header;
 
+import static de.luxe.direction.notifier.BuildConfig.API_KEY;
+
 
 /**
  * AccessibilityService receive event AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED
@@ -65,6 +67,7 @@ public class DirectionNotifierService extends AccessibilityService {
     private Bitmap staticMapImage;
     private PendingIntent pendingIntent;
     private String textIntent;
+    private LatLng lastLocation;
     private Map<String, Integer> notis = new HashMap<String, Integer>();
     private static AsyncHttpClient client;
     private NotificationManagerCompat managerCompat;
@@ -155,7 +158,7 @@ public class DirectionNotifierService extends AccessibilityService {
     }
 
 
-    private Bitmap getGoogleStaticMapImageAndSend(LatLng myLocation, final String textConcated, final String dirTitle, final Integer notiId){
+    private Bitmap getGoogleStaticMapImageAndSend(final LatLng myLocation, final String textConcated, final String dirTitle, final Integer notiId){
         String url = "https://maps.googleapis.com/maps/api/staticmap";
         RequestParams params = new RequestParams();
         provideParams(myLocation, params);
@@ -176,6 +179,7 @@ public class DirectionNotifierService extends AccessibilityService {
                             staticMapImage = BitmapFactory.decodeStream(is);
                             if(staticMapImage != null){
                                 staticMapImage = joinImages(textConcated);
+                                lastLocation = myLocation;
                                 sendNotification(textConcated, dirTitle, notiId);
                             }
                         }
@@ -191,6 +195,7 @@ public class DirectionNotifierService extends AccessibilityService {
                      */
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        staticMapImage = null;
                         Toast.makeText(DirectionNotifierService.this,
                                 "Error getting static map image: " + error.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -230,9 +235,13 @@ public class DirectionNotifierService extends AccessibilityService {
         params.add("size", "250x250");
         params.add("scale", "2");
         params.add("maptype", "roadmap");
-        params.add("markers", new StringBuilder().append("color:blue|").append("label:L|").append("size:mid|")
+        params.add("markers", new StringBuilder().append("color:red|").append("size:mid|")
                 .append(myLocation.latitude).append(",").append(myLocation.longitude).toString());
-        params.add("key", getString(R.string.key));
+        if(lastLocation != null){
+            params.add("markers", new StringBuilder().append("color:white|").append("label:L|").append("size:mid|")
+                    .append(lastLocation.latitude).append(",").append(lastLocation.longitude).toString());
+        }
+        params.add("key", API_KEY);
     }
 
     @Override
