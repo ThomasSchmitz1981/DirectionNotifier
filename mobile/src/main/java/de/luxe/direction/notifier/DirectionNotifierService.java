@@ -235,12 +235,12 @@ public class DirectionNotifierService extends AccessibilityService {
         params.add("size", "250x250");
         params.add("scale", "2");
         params.add("maptype", "roadmap");
-        params.add("markers", new StringBuilder().append("color:red|").append("size:mid|")
-                .append(myLocation.latitude).append(",").append(myLocation.longitude).toString());
         if(lastLocation != null){
             params.add("markers", new StringBuilder().append("color:white|").append("label:L|").append("size:mid|")
                     .append(lastLocation.latitude).append(",").append(lastLocation.longitude).toString());
         }
+        params.add("markers", new StringBuilder().append("color:red|").append("size:mid|")
+                .append(myLocation.latitude).append(",").append(myLocation.longitude).toString());
         params.add("key", API_KEY);
     }
 
